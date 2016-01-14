@@ -48,7 +48,7 @@ body.ng-pageslide-body-closed::before {
     <div class="top-left">
       <div >
         <div class="date grey">{{clock | date : 'EEEE, d of MMMM yyyy'}}</div>
-        <div class="time">{{clock | date : 'hh:mm:ss a'}}</div>
+        <div class="time">{{clock | date : 'hh:mm: a'}}</div>
         <div class="date grey">1£ : {{currency}}€</div>
       </div>
     </div>
@@ -145,7 +145,6 @@ Talk("I am always shining, I am made of metal")
       };
 
       annyang.addCommands(test);
-      //  annyang.start();
       annyang.start();
       annyang.debug([newState = true])
     }
