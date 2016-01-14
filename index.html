@@ -1,0 +1,152 @@
+<meta charset="UTF8">
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/annyang/2.1.0/annyang.min.js"></script>
+<script src="http://code.responsivevoice.org/responsivevoice.js"></script>
+<style>
+html {
+  overflow-x: hidden;
+}
+.ng-pageslide {
+  background: #eee;
+}
+body.ng-pageslide-body-open::before {
+  content: '.';
+  display: block;
+  position: absolute;
+  top: 0;
+  background-color: rgb(0,0,0);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  opacity: 0.5;
+  transition: opacity 1s;
+}
+body.ng-pageslide-body-closed::before {
+  transition: opacity 1s;
+  opacity: 0;
+  content: '.';
+  display: block;
+  position: absolute;
+  top: 0;
+  background-color: rgb(0,0,0);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-animate.min.js"></script>
+<script src="https://rawgit.com/darkskyapp/skycons/master/skycons.js"></script>
+<script src="js/infos.js"></script>
+<link rel="stylesheet" href="main.css" />
+<body ng-app="top" >
+  <div class="top"  ng-controller='top-ctrl'>
+    <div class="top-left">
+      <div >
+        <div class="date grey">{{clock | date : 'EEEE, d of MMMM yyyy'}}</div>
+        <div class="time">{{clock | date : 'hh:mm:ss a'}}</div>
+        <div class="date grey">1£ : {{currency}}€</div>
+      </div>
+    </div>
+    <div class="top-right" >
+      <div class="weather">
+        <div class="weather-today">
+          <span class="tempreture">{{temperature}}&deg;</span>
+        </div>
+        <div class="weather-week-descriptor">{{summary}}</div>
+        <div class="weather-week">
+          <div class="weather-week-day">
+            <span class="day light-grey">{{day}}</span>
+            <span class="tempreture tempreture-min">{{temperatureMin}}</span>
+            <span class="tempreture tempreture-max">{{temperatureMax}}</span>
+            <span class="icons">
+              <canvas id="icon1" width="30" height="30"></canvas>
+              <canvas id="icon2" width="30" height="30"></canvas>
+              <canvas id="icon3" width="30" height="30"></canvas>
+              <canvas id="icon4" width="30" height="30"></canvas>
+              <canvas id="icon5" width="30" height="30"></canvas>
+              <canvas id="icon6" width="30" height="30"></canvas>
+              <canvas id="icon7" width="30" height="30"></canvas>
+              <canvas id="icon8" width="30" height="30"></canvas>
+            </span>
+            <span class="tempreture tempreture-max">{{moonPhase}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="middle-center">
+      <h1>Hello, Master!</h1>
+      <div class="map-container animate-grow" ng-show="focus == 'map'">
+        <img class="map animate-grow" ng-src="{{map}}"/>
+      </div>
+    </div>
+    <div class="bottom-center">
+      <div class="interim-result" ng-bind="interimResult"></div>
+    </div>
+  </body>
+  <script>
+
+            var delay = ( function() {
+                var timer = 0;
+                return function(callback, ms) {
+                    clearTimeout (timer);
+                    timer = setTimeout(callback, ms);
+                };
+            })();
+            function EndCallback(){
+
+              delay(function(){
+                annyang.resume()
+  }, 2000 ); //
+            }
+            function StartCallback(){
+              annyang.pause()
+            }
+function Talk(text){
+  responsiveVoice.speak(text, "UK English Female", {"onstart": StartCallback,"onend": EndCallback });
+}
+
+
+    if (annyang) {
+      // Let's define a command.
+      var awake = {
+        'wake up': function () {
+          annyang.addCommands(test);
+          Talk("Good morning")
+        }
+      }
+      var test = {
+        'sleep': function () {
+          annyang.removeCommands();
+          annyang.addCommands(awake);
+      Talk("Good night")
+        },
+        'hello': function () {
+Talk("hello : Master, how are you today")
+        },
+        'rise and shine': function () {
+Talk("I am always shining, I am made of metal")
+        },  'what is metal': function () {
+  Talk("Metal is brutal")
+          },
+        'show me *search': function (ap) {
+          Talk("What the fuck is "+ap)
+
+        },
+        'How are you': function () {
+      Talk("I am existing only by your will : Master")
+        }
+      };
+
+      annyang.addCommands(test);
+      //  annyang.start();
+      annyang.start();
+      annyang.debug([newState = true])
+    }
+    </script>
